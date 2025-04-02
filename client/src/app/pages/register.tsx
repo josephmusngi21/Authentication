@@ -2,7 +2,13 @@ import { FormEvent } from "react";
 import { useRouter } from "next/router";
 
 export default function RegisterPage() {
-  const handleSubmit = () => {};
+  const router = useRouter();
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    // Example: Navigate to a success page after form submission
+    router.push("/success");
+  };
 
   return (
     <form onSubmit={handleSubmit}>
