@@ -1,7 +1,9 @@
-import express from "express"; 
-const mongoose = require("mongoose"); 
-const authRoutes = require("./routes/auth"); 
-const cors = require("cors");
+import express from "express";  // express helps Node.js connect to the database and create a server
+const mongoose = require("mongoose"); // database
+const authRoutes = require("./routes/auth");  // this imports the auth routes that we made in /routes/auth.js
+const cors = require("cors"); // cors allows us to connect to database and create a server
+
+
 
 const app = express();
 const PORT = 3001;
