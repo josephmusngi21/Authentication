@@ -1,7 +1,7 @@
 import express from "express";
-const mongoose = require("mongoose");
-const authRoutes = require("./routes/auth");
-const cors = require("cors");
+import mongoose from 'mongoose'
+import authRoutes from "./routes/auth.js";
+import cors from "cors";
 
 const app = express();
 const PORT = 3001;
