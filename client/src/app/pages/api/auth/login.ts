@@ -6,8 +6,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const { email, password } = req.body
-    await signIn('credentials', { email, password })
+    // const { email, password } = req.body
+    // await signIn('credentials', { email, password })
  
     res.status(200).json({ success: true })
   } catch (error) {
