@@ -63,5 +63,37 @@ async function checkLogin(email, password) {
 
 
 // This is a method that creates a new user and saves it to the database
+async function registerUser(email, password) {
+  try {
+    await client.connect();
+    const database = client.db("yourDatabaseName");
+    const users = database.collection("users");
 
+    const existingUser = await users.findOne({ email: email });
+    if (existingUser) {
+      throw new Error("User already exists");
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = {
+      email: email,
+      password: hashedPassword,
+      createdAt: new Date(),
+    };
+
+    const result = await users.insertOne(newUser);
+
+    const token = jwt.sign({ id: result.insertedId }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    return { token, user: newUser };
+  } catch (error) {
+    console.error("Error during registration:", error);
+    throw error;
+  } finally {
+    await client.close();
+  }
+}
 connect().catch(console.error);
