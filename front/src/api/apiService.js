@@ -19,6 +19,7 @@ const client = new MongoClient(uri, {
   },
 });
 
+//This connects to database and creates a user model, this will be used to create a new user and save it to the database
 async function connect() {
     try {
         await client.connect();
