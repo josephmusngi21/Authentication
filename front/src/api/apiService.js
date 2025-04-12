@@ -19,7 +19,7 @@ const client = new MongoClient(uri, {
   },
 });
 
-//This connects to database and creates a user model, this will be used to create a new user and save it to the database
+// This connects to database and creates a user model, this will be used to create a new user and save it to the database
 async function connect() {
     try {
         await client.connect();
@@ -30,5 +30,38 @@ async function connect() {
         await client.close();
     }
 }
+
+// This is a method that checks if the user email already exists 
+async function checkLogin(email, password) {
+  try {
+    await client.connect();
+    const database = client.db("yourDatabaseName");
+    const users = database.collection("users");
+
+    const user = await users.findOne({ email: email });
+    if (!user) {
+      throw new Error("User does not exist");
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      throw new Error("Invalid password");
+    }
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    return { token, user };
+  } catch (error) {
+    console.error("Error during login:", error);
+    throw error;
+  } finally {
+    await client.close();
+  }
+}
+
+
+// This is a method that creates a new user and saves it to the database
 
 connect().catch(console.error);
