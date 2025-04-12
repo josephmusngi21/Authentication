@@ -1,37 +1,57 @@
 "use client";
 
-import react, { useState } from 'react';
+import React, { useState } from "react";
+import axios from "axios";
 
 export default function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
 
-    const [data, setData] = useState({});
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setData({ email, password });
-        console.log(data);
-    }
+        setError("");
+        setSuccess("");
 
-    const handleClick = (e) => {
-        e.preventDefault();
-        const data = { email, password };
-        console.log(data);
+        try {
+            const response = await axios.post("http://localhost:5000/api/login", {
+                email,
+                password,
+            });
+            setSuccess("Login successful!");
+            console.log("Token:", response.data.token);
+        } catch (err) {
+            setError(err.response?.data?.message || "Login failed");
+        }
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <h1> Login </h1>
-            <label htmlFor='email'>Email:</label>
-            <br/>
-            <input id='email' type='email' placeholder='Enter Email: '/>
-            <br/>
-            <label htmlFor='password'>Password:</label>
-            <input id='password' type='password' placeholder='Enter Password: '/>
-            <button type='submit' onClick={handleClick}>Login</button>
+            <h1>Login</h1>
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            {success && <p style={{ color: "green" }}>{success}</p>}
+            <label htmlFor="email">Email:</label>
+            <br />
+            <input
+                id="email"
+                type="email"
+                placeholder="Enter Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+            />
+            <br />
+            <label htmlFor="password">Password:</label>
+            <br />
+            <input
+                id="password"
+                type="password"
+                placeholder="Enter Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+            />
+            <br />
+            <button type="submit">Login</button>
         </form>
-    )
-
-};
-
+    );
+}
