@@ -5,7 +5,7 @@ const router = express.Router(); // this creates a new router object that we can
 import bcrypt from "bcrypt"; // bcrypt is a library that helps us hash and compare passwords
 
 router.post("/login", async (req, res) => {
-    // This will take the username and password from the request body and check if the user exists in the database, if it does, it will check if the password is correct, if it is, it will create a token and send it back to the client
+    // This will tak\e the username and password from the request body and check if the user exists in the database, if it does, it will check if the password is correct, if it is, it will create a token and send it back to the client
   const { username, password } = req.body;
 
   const errorMessage = "Invalid username or password";
