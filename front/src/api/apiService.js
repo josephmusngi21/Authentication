@@ -2,19 +2,19 @@
 // It will also check if the user already exists and if the password is correct, if not it will return a error
 // It will also create a token for the user, it will take the user id and sign it with the JWT_SECRET, and set the expiration time to 1 hour
 
-import mongoose from "mongoose";
-import bcrypt from "bcrypt";
+import { MongoClient, ServerApiVersion } from "mongodb";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
-const { MongoClient, SErverApiVersion } = mongoose;
+// Removed as the correct import is already fixed above
 dotenv.config();
 
 const uri = process.env.MONGO_URL;
 
 const client = new MongoClient(uri, {
-  severApi: {
-    version: SErverApiVersion.v1,
+  serverApi: {
+    version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
   },
