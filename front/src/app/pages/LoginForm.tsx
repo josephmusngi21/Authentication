@@ -22,7 +22,11 @@ export default function Login() {
             setSuccess("Login successful!");
             console.log("Token:", response.data.token);
         } catch (err) {
-            setError((err as any).response?.data?.message || "Login failed");
+            if (axios.isAxiosError(err) && err.response?.data?.message) {
+                setError(err.response.data.message);
+            } else {
+                setError("Login failed");
+            }
         }
     };
 
