@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { registerUser } from './../api/apiService';
+import { registerUser } from '../../api/apiService.js';
 
 export default function Register() {
     const [username, setUsername] = useState('');
@@ -8,14 +8,14 @@ export default function Register() {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
             const response = await registerUser(email, password);
             setSuccess('User registered successfully!');
             console.log('Registration successful:', response);
         } catch (err) {
-            setError(err.message || 'An error occurred during registration.');
+            setError((err instanceof Error ? err.message : 'An error occurred during registration.'));
             console.error('Error during registration:', err);
         }
     };
