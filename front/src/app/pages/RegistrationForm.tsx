@@ -1,30 +1,30 @@
 import React, { useState } from 'react';
-
-"use client";
-
+import { registerUser } from './../api/apiService';
 
 export default function Register() {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
 
-    const [data, setData] = useState({});
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setData({ username, email, password });
-        console.log(data);
-    };
-
-    const handleClick = (e) => {
-        e.preventDefault();
-        const data = { username, email, password };
-        console.log(data);
+        try {
+            const response = await registerUser(email, password);
+            setSuccess('User registered successfully!');
+            console.log('Registration successful:', response);
+        } catch (err) {
+            setError(err.message || 'An error occurred during registration.');
+            console.error('Error during registration:', err);
+        }
     };
 
     return (
         <form onSubmit={handleSubmit}>
             <h1> Register </h1>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {success && <p style={{ color: 'green' }}>{success}</p>}
             <label htmlFor='username'>Username:</label>
             <br />
             <input 
@@ -55,7 +55,7 @@ export default function Register() {
                 onChange={(e) => setPassword(e.target.value)} 
             />
             <br />
-            <button type='submit' onClick={handleClick}>Register</button>
+            <button type='submit'>Register</button>
         </form>
     );
 }
