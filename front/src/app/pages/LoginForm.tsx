@@ -9,7 +9,7 @@ export default function Login() {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setError("");
         setSuccess("");
@@ -22,7 +22,7 @@ export default function Login() {
             setSuccess("Login successful!");
             console.log("Token:", response.data.token);
         } catch (err) {
-            setError(err.response?.data?.message || "Login failed");
+            setError((err as any).response?.data?.message || "Login failed");
         }
     };
 
