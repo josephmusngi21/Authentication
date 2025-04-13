@@ -2,11 +2,12 @@
 // It will also check if the user already exists and if the password is correct, if not it will return a error
 // It will also create a token for the user, it will take the user id and sign it with the JWT_SECRET, and set the expiration time to 1 hour
 
-const { MongoClient, SErverApiVersion} = require("mongoose");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const axios = require("axios");
-const dotenv = require("dotenv");
+import mongoose from "mongoose";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+const { MongoClient, SErverApiVersion } = mongoose;
 dotenv.config();
 
 const uri = process.env.MONGO_URL;
@@ -96,4 +97,8 @@ async function registerUser(email, password) {
     await client.close();
   }
 }
+
 connect().catch(console.error);
+
+// Export the functions to make them usable in other parts of the application
+export { checkLogin, registerUser };
