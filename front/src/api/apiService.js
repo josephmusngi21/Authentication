@@ -2,13 +2,9 @@
 // It will also check if the user already exists and if the password is correct, if not it will return a error
 // It will also create a token for the user, it will take the user id and sign it with the JWT_SECRET, and set the expiration time to 1 hour
 
-import { MongoClient, ServerApiVersion } from "mongodb";
+import { MongoClient, ServerApiVersion } from "mongodb"; 
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-
-// Removed as the correct import is already fixed above
-dotenv.config();
 
 const uri = process.env.MONGO_URL;
 
@@ -102,3 +98,4 @@ connect().catch(console.error);
 
 // Export the functions to make them usable in other parts of the application
 export { checkLogin, registerUser };
+
